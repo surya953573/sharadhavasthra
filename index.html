@@ -235,7 +235,7 @@ border-radius:6px;
 <div id="home">
 
 <div class="header">
-Sharadha Vastra
+SHARADHA VASTHRA
 <button class="logout" onclick="logout()">Logout</button>
 </div>
 
@@ -256,6 +256,12 @@ Sharadha Vastra
 <div class="card" onclick="openProduct('Silk Saree')">
 <img src="https://picsum.photos/300?saree1">
 <div>Silk Saree</div>
+<div class="price">₹700</div>
+</div>
+
+<div class="card" onclick="openProduct('semi Silk Saree')">
+<img src="https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/IMG_2678.JPG">
+<div>semi Silk Saree</div>
 <div class="price">₹700</div>
 </div>
 
@@ -324,9 +330,11 @@ let selectedSize=""
 let currentProduct={}
 
 let products={
-"Cotton Dress":{price:449,size:true,images:["https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/WhatsApp%20Image%202026-03-13%20at%204.31.50%20PM.jpeg","https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/WhatsApp%20Image%202026-03-13%20at%204.31.53%20PM.jpeg","https://picsum.photos/800?dress3"]},
+"Cotton Dress":{price:449,size:true,images:["https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/WhatsApp%20Image%202026-03-13%20at%204.31.50%20PM.jpeg","https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/WhatsApp%20Image%202026-03-13%20at%204.31.53%20PM.jpeg"]},
 "Stylish Shirt":{price:249,size:true,images:["https://picsum.photos/800?shirt1","https://picsum.photos/800?shirt2","https://picsum.photos/800?shirt3"]},
-"Silk Saree":{price:700,size:false,images:["https://picsum.photos/800?saree1","https://picsum.photos/800?saree2","https://picsum.photos/800?saree3"]}
+"Silk Saree":{price:700,size:false,images:["https://picsum.photos/800?saree1","https://picsum.photos/800?saree2","https://picsum.photos/800?saree3"]},
+"semi Silk Saree":{price:700,size:false,images:["https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/IMG_2675.JPG","https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/IMG_2678.JPG","https://picsum.photos/800?saree3"]}
+
 }
 
 function openProduct(name){

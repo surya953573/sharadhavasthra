@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sharadha Vastra</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#f4f4f4;
+}
+
+/* HEADER */
+
+.header{
+background:black;
+color:white;
+text-align:center;
+padding:15px;
+font-size:20px;
+position:relative;
+}
+
+.logout{
+position:absolute;
+right:10px;
+top:10px;
+background:red;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* PRODUCTS */
+
+.products{
+display:flex;
+flex-wrap:wrap;
+justify-content:space-around;
+padding:10px;
+}
+
+.card{
+width:30%;
+background:white;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.2);
+cursor:pointer;
+text-align:center;
+}
+
+.card img{
+width:100%;
+border-radius:8px;
+}
+
+.price{
+font-weight:bold;
+}
+
+/* PRODUCT PAGE */
+
+.detail{
+display:none;
+padding:15px;
+}
+
+/* IMAGE SLIDER */
+
+.slider{
+display:flex;
+overflow-x:auto;
+scroll-snap-type:x mandatory;
+}
+
+.slider img{
+width:100%;
+flex-shrink:0;
+scroll-snap-align:start;
+border-radius:10px;
+}
+
+/* SIZE BUTTONS */
+
+.sizeBtn{
+padding:8px 12px;
+border:1px solid black;
+margin:4px;
+cursor:pointer;
+border-radius:6px;
+background:white;
+}
+
+.sizeBtn.active{
+background:black;
+color:white;
+box-shadow:0 0 10px #25D366;
+}
+
+/* TEXT */
+
+.title{
+font-size:22px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.sub{
+color:gray;
+}
+
+.delivery{
+color:green;
+}
+
+.rating{
+color:orange;
+}
+
+.qty input{
+width:70px;
+padding:5px;
+}
+
+.totalPrice{
+font-weight:bold;
+margin-top:6px;
+}
+
+/* BUTTON */
+
+.btn{
+width:100%;
+padding:12px;
+border:none;
+border-radius:6px;
+margin-top:12px;
+font-size:16px;
+cursor:pointer;
+background:#25D366;
+color:white;
+}
+
+/* CONFIRM POPUP */
+
+.confirmBox{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+}
+
+.confirmContent{
+background:white;
+padding:25px;
+border-radius:10px;
+width:85%;
+max-width:320px;
+text-align:center;
+}
+
+.confirmBtns{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
+.confirmBtns button{
+flex:1;
+padding:10px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.ok{background:#25D366;color:white;}
+.cancel{background:red;color:white;}
+
+/* USER FORM */
+
+.userForm{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+justify-content:center;
+align-items:center;
+}
+
+.formBox{
+background:white;
+padding:20px;
+border-radius:10px;
+width:80%;
+max-width:300px;
+}
+
+.formBox input{
+width:100%;
+padding:10px;
+margin-top:8px;
+margin-bottom:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.formBox button{
+width:100%;
+padding:10px;
+background:black;
+color:white;
+border:none;
+border-radius:6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="home">
+
+<div class="header">
+Sharadha Vastra
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="products">
+
+<div class="card" onclick="openProduct('Cotton Dress')">
+<img src="https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/WhatsApp%20Image%202026-03-13%20at%204.31.50%20PM.jpeg">
+<div>Cotton Dress</div>
+<div class="price">₹449</div>
+</div>
+
+<div class="card" onclick="openProduct('Stylish Shirt')">
+<img src="https://picsum.photos/300?shirt1">
+<div>Stylish Shirt</div>
+<div class="price">₹249</div>
+</div>
+
+<div class="card" onclick="openProduct('Silk Saree')">
+<img src="https://picsum.photos/300?saree1">
+<div>Silk Saree</div>
+<div class="price">₹700</div>
+</div>
+
+</div>
+
+</div>
+
+<div id="detail" class="detail">
+
+<button onclick="goHome()">← Back</button>
+
+<div class="slider"></div>
+
+<div class="title" id="title"></div>
+
+<div class="sub">Premium quality cloth</div>
+
+<div class="price" id="price"></div>
+
+<div class="delivery">Free delivery</div>
+
+<div class="rating">★★★★<div>
+
+<div id="sizeSection">
+Size:
+<button class="sizeBtn" onclick="selectSize(this,'S')">S</button>
+<button class="sizeBtn" onclick="selectSize(this,'M')">M</button>
+<button class="sizeBtn" onclick="selectSize(this,'L')">L</button>
+<button class="sizeBtn" onclick="selectSize(this,'XL')">XL</button>
+</div>
+
+<div class="qty">
+Quantity :
+<input type="number" id="qty" min="1" max="10" value="1" onchange="updateTotal()">
+</div>
+
+<div class="totalPrice" id="totalPrice"></div>
+
+<button class="btn" onclick="orderProduct()">Order</button>
+
+</div>
+
+<div class="confirmBox" id="confirmBox">
+<div class="confirmContent">
+<h3>Confirm Order</h3>
+<p id="confirmText"></p>
+<div class="confirmBtns">
+<button class="ok" onclick="confirmOrder()">Confirm</button>
+<button class="cancel" onclick="closeConfirm()">Cancel</button>
+</div>
+</div>
+</div>
+
+<div class="userForm" id="userForm">
+<div class="formBox">
+<h3>User Details</h3>
+<input id="nameInput" placeholder="Enter Name">
+<input id="addressInput" placeholder="Enter Address">
+<button onclick="saveUser()">Save</button>
+</div>
+</div>
+
+<script>
+
+let selectedSize=""
+let currentProduct={}
+
+let products={
+"Cotton Dress":{price:449,size:true,images:["https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/WhatsApp%20Image%202026-03-13%20at%204.31.50%20PM.jpeg","https://uploads.onecompiler.io/44g7v6ebs/44g7v54tp/WhatsApp%20Image%202026-03-13%20at%204.31.53%20PM.jpeg","https://picsum.photos/800?dress3"]},
+"Stylish Shirt":{price:249,size:true,images:["https://picsum.photos/800?shirt1","https://picsum.photos/800?shirt2","https://picsum.photos/800?shirt3"]},
+"Silk Saree":{price:700,size:false,images:["https://picsum.photos/800?saree1","https://picsum.photos/800?saree2","https://picsum.photos/800?saree3"]}
+}
+
+function openProduct(name){
+
+document.getElementById("home").style.display="none"
+document.getElementById("detail").style.display="block"
+
+let product=products[name]
+
+currentProduct={
+name:name,
+price:product.price,
+image:product.images[0]
+}
+
+document.getElementById("title").innerText=name
+document.getElementById("price").innerText="Price ₹"+product.price
+
+let slider=document.querySelector(".slider")
+slider.innerHTML=""
+
+product.images.forEach(img=>{
+slider.innerHTML+=`<img src="${img}">`
+})
+
+document.getElementById("sizeSection").style.display=product.size?"block":"none"
+
+updateTotal()
+
+}
+
+function selectSize(btn,size){
+
+selectedSize=size
+
+document.querySelectorAll(".sizeBtn").forEach(b=>b.classList.remove("active"))
+btn.classList.add("active")
+
+}
+
+function updateTotal(){
+
+let qty=document.getElementById("qty").value
+let total=currentProduct.price*qty
+
+document.getElementById("totalPrice").innerText="Total ₹"+total
+
+}
+
+function goHome(){
+
+document.getElementById("home").style.display="block"
+document.getElementById("detail").style.display="none"
+
+}
+
+function orderProduct(){
+
+let name=localStorage.getItem("userName")
+let address=localStorage.getItem("userAddress")
+
+if(!name || !address){
+
+document.getElementById("userForm").style.display="flex"
+return
+
+}
+
+showConfirm()
+
+}
+
+function saveUser(){
+
+let name=document.getElementById("nameInput").value.trim()
+let address=document.getElementById("addressInput").value.trim()
+
+if(name=="" || address==""){
+
+alert("Please enter Name and Address before saving")
+return
+
+}
+
+localStorage.setItem("userName",name)
+localStorage.setItem("userAddress",address)
+
+document.getElementById("userForm").style.display="none"
+
+showConfirm()
+
+}
+
+function showConfirm(){
+
+let qty=document.getElementById("qty").value
+let total=currentProduct.price*qty
+
+document.getElementById("confirmText").innerText=
+currentProduct.name+" | Qty:"+qty+" | Total ₹"+total
+
+document.getElementById("confirmBox").style.display="flex"
+
+}
+
+function closeConfirm(){
+
+document.getElementById("confirmBox").style.display="none"
+
+}
+
+function confirmOrder(){
+
+closeConfirm()
+
+let qty=document.getElementById("qty").value
+let total=currentProduct.price*qty
+
+let name=localStorage.getItem("userName")
+let address=localStorage.getItem("userAddress")
+
+alert("Thank you for your order")
+
+let message="🛍 *New Order* %0A%0A"
+
+message+="👤 Name: "+name+"%0A"
+message+="🏠 Address: "+address+"%0A%0A"
+
+message+="📦 Product: "+currentProduct.name+"%0A"
+
+if(selectedSize!=""){
+message+="📏 Size: "+selectedSize+"%0A"
+}
+
+message+="💰 Price: ₹"+currentProduct.price+"%0A"
+message+="🔢 Quantity: "+qty+"%0A"
+message+="🧾 Total: ₹"+total+"%0A%0A"
+
+message+="🖼 Image: "+currentProduct.image
+
+let url="https://wa.me/918073805042?text="+message
+
+window.open(url)
+
+}
+
+function logout(){
+
+localStorage.clear()
+alert("Logged out")
+
+}
+
+</script>
+
+</body>
+</html>
